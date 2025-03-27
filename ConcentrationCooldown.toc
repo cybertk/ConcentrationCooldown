@@ -1,0 +1,32 @@
+## Interface: 110100
+## Title: ConcentrationCooldown
+## Notes: Show your acquired |T1064187:14|t |cffa335ee[Delver's Bounty]|r on tooltip of the Delve Entrances
+## Version: @project-version@
+## IconTexture: Interface\AddOns\WeeklyDelveMaps\Icon.blp
+## SavedVariables: ConcentrationCooldownDB
+## Category-enUS: Map
+## Category-deDE: Karte
+## Category-esES: Mapa
+## Category-esMX: Mapa
+## Category-frFR: Carte
+## Category-itIT: Mappa
+## Category-koKR: 지도
+## Category-ptBR: Mapa
+## Category-ruRU: Карта
+## Category-zhCN: 地图
+## Category-zhTW: 地圖
+## X-Website: https://github.com/cybertk/ConcentrationCooldown
+## X-Curse-Project-ID: x
+## X-Wago-ID: x
+## X-WoWI-ID: x
+
+
+
+
+Embeds/WeeklyRewards/Util.lua
+
+Character.lua
+
+Embeds/WeeklyRewards/Core/CharacterStore.lua
+
+ConcentrationCooldown.lua
