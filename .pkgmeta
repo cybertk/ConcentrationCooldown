@@ -1,0 +1,20 @@
+package-as: ConcentrationRecharge
+
+enable-nolib-creation: no
+
+manual-changelog:
+    filename: CHANGELOG.md
+    markup-type: markdown
+
+externals:
+    Embeds/WeeklyRewards:
+        url: https://github.com/cybertk/WeeklyRewards
+        tag: v1.8.1
+
+ignore:
+    - Makefile
+    - Tests
+    - Screenshots
+    - README.md
+    # Ignore unused WeeklyRewards files to optimize pkg size
+    - Embeds/WeeklyRewards/
