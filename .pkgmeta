@@ -17,4 +17,4 @@ ignore:
     - Screenshots
     - README.md
     # Ignore unused WeeklyRewards files to optimize pkg size
-    - Embeds/WeeklyRewards/
+    - Embeds/WeeklyRewards
