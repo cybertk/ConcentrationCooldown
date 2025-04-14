@@ -25,7 +25,7 @@ local Concentration = {
 Concentration.__index = Concentration
 
 local CONCENTRATION_MAX = 1000
-local CONCENTRATION_RECHARGE_RATE_IN_SECONDS = 10 / 3600
+local CONCENTRATION_RECHARGE_RATE_IN_SECONDS = 250 / 24 / 3600
 
 function Concentration.__eq(a, b)
 	return a.fullTime == b.fullTime
