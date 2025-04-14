@@ -73,7 +73,7 @@ function ConcentrationCooldownMixin:Update()
 
 	if self.concentration:IsRecharging() then
 		self:SetCooldownUNIX(GetServerTime() - self.concentration:SecondsRecharged(), self.concentration:SecondsOfRecharge(), 60)
-		self.text:SetText(self.concentration.v)
+		self.text:SetText(self.concentration:GetLatestV())
 	end
 end
 
@@ -128,7 +128,7 @@ function ConcentrationRecharge:Init()
 end
 
 function ConcentrationRecharge:FormatConcentration(concentration)
-	return format("|cn%s:%d/1000|r", concentration:IsFull() and "RED_FONT_COLOR" or "WHITE_FONT_COLOR", concentration.v)
+	return format("|cn%s:%d/1000|r", concentration:IsFull() and "RED_FONT_COLOR" or "WHITE_FONT_COLOR", concentration:GetLatestV())
 end
 
 function ConcentrationRecharge:AddRechargeToTooltip(tooltip, concentration)

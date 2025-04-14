@@ -80,6 +80,19 @@ function Concentration:Update()
 	return true
 end
 
+function Concentration:GetLatestV()
+	if self.v == CONCENTRATION_MAX then
+		return CONCENTRATION_MAX
+	end
+
+	local now = GetServerTime()
+	if now >= self.fullTime then
+		return CONCENTRATION_MAX
+	end
+
+	return CONCENTRATION_MAX - (self.fullTime - now) * CONCENTRATION_RECHARGE_RATE_IN_SECONDS
+end
+
 function Concentration:IsFull()
 	return self.v == CONCENTRATION_MAX
 end
@@ -147,7 +160,7 @@ function Character:Update()
 
 			if concentration == nil then
 				concentration = Concentration:Create(name, skillLine, spelloffset, i)
-				self.concentration[concentration.skillLine] = concentration
+				self.concentration[skillLine] = concentration
 			end
 
 			if concentration then
