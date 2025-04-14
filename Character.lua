@@ -90,7 +90,7 @@ function Concentration:GetLatestV()
 		return CONCENTRATION_MAX
 	end
 
-	return CONCENTRATION_MAX - (self.fullTime - now) * CONCENTRATION_RECHARGE_RATE_IN_SECONDS
+	return math.floor(0.5 + CONCENTRATION_MAX - (self.fullTime - now) * CONCENTRATION_RECHARGE_RATE_IN_SECONDS)
 end
 
 function Concentration:IsFull()
