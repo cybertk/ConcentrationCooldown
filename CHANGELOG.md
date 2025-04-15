@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.2 - 2025-04-15
+
+### Fix
+
+- Taint errors: Interface action failed because of an AddOn
+
 ## v1.0.1 - 2025-04-14
 
 ### Fix
