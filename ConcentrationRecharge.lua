@@ -48,18 +48,25 @@ function ConcentrationCooldownMixin:OnLoad()
 	self:SetAllPoints(button)
 	self:SetHideCountdownNumbers(true)
 
-	if button.Update then
-		hooksecurefunc(button, "Update", function()
-			self:UpdateOverlayGlow()
-		end)
-	end
+	local alert = CreateFrame("Frame", nil, button, "ActionBarButtonSpellActivationAlert")
+	local w, h = button:GetSize()
+	alert:SetSize(w * 1.4, h * 1.4)
+	alert:SetPoint("CENTER", button, "CENTER", 0, 0)
+	alert:SetScript("OnHide", function() end)
+	alert:Hide()
+	self.alert = alert
 end
 
 function ConcentrationCooldownMixin:UpdateOverlayGlow()
-	ActionButton_HideOverlayGlow(self:GetParent())
-
 	if self.concentration:IsFull() then
-		ActionButton_ShowOverlayGlow(self:GetParent())
+		self.alert:Show()
+		self.alert.ProcStartAnim:Play()
+	else
+		self.alert:Hide()
+		self.alert.ProcLoop:Stop()
+		if self.alert.ProcStartAnim:IsPlaying() then
+			self.alert.ProcStartAnim:Stop()
+		end
 	end
 end
 
