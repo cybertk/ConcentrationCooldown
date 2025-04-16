@@ -208,8 +208,26 @@ function ConcentrationRecharge:Update()
 	end
 end
 
+function ConcentrationRecharge:ExecuteChatCommands(command)
+	if command == "debug" then
+		-- Toggle Debug Mode
+		self.db.debug = not self.db.debug
+		Util.debug = self.db.debug
+		print("Debug Mode:", self.db.debug)
+		return
+	end
+
+	print("Usage: |n/cr debug - Turn on/off debugging mode")
+end
+
 if _G["ConcentrationRecharge"] == nil then
 	_G["ConcentrationRecharge"] = ConcentrationRecharge
+
+	SLASH_CONCENTRATION_RECHARGE1 = "/ConcentrationRecharge"
+	SLASH_CONCENTRATION_RECHARGE2 = "/cr"
+	function SlashCmdList.CONCENTRATION_RECHARGE(msg, editBox)
+		ConcentrationRecharge:ExecuteChatCommands(msg)
+	end
 
 	local DefaultConcentrationRechargeDB = {
 		characters = {},
@@ -253,6 +271,7 @@ if _G["ConcentrationRecharge"] == nil then
 
 		ConcentrationRechargeDB = ConcentrationRechargeDB or DefaultConcentrationRechargeDB
 
+		ConcentrationRecharge.db = ConcentrationRechargeDB
 		Util.debug = ConcentrationRechargeDB.debug
 		CharacterStore.Load(ConcentrationRechargeDB.characters)
 	end)
