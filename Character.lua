@@ -82,23 +82,23 @@ end
 
 function Concentration:GetLatestV()
 	if self.v == CONCENTRATION_MAX then
-		return CONCENTRATION_MAX
+		return CONCENTRATION_MAX, true
 	end
 
 	local now = GetServerTime()
 	if now >= self.fullTime then
-		return CONCENTRATION_MAX
+		return CONCENTRATION_MAX, true
 	end
 
-	return math.floor(0.5 + CONCENTRATION_MAX - (self.fullTime - now) * CONCENTRATION_RECHARGE_RATE_IN_SECONDS)
+	return math.floor(0.5 + CONCENTRATION_MAX - (self.fullTime - now) * CONCENTRATION_RECHARGE_RATE_IN_SECONDS), false
 end
 
 function Concentration:IsFull()
-	return self.v == CONCENTRATION_MAX
+	return select(2, self:GetLatestV())
 end
 
 function Concentration:IsRecharging()
-	return self.v and self.v ~= CONCENTRATION_MAX
+	return self.v and not select(2, self:GetLatestV())
 end
 
 function Concentration:SecondsToFull()

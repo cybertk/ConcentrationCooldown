@@ -135,7 +135,9 @@ function ConcentrationRecharge:Init()
 end
 
 function ConcentrationRecharge:FormatConcentration(concentration)
-	return format("|cn%s:%d/1000|r", concentration:IsFull() and "RED_FONT_COLOR" or "WHITE_FONT_COLOR", concentration:GetLatestV())
+	local v, isFull = concentration:GetLatestV()
+
+	return format("|cn%s:%d/1000|r", isFull and "RED_FONT_COLOR" or "WHITE_FONT_COLOR", v)
 end
 
 function ConcentrationRecharge:AddRechargeToTooltip(tooltip, concentration)
