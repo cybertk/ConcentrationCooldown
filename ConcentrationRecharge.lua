@@ -52,9 +52,18 @@ function ConcentrationCooldownMixin:OnLoad()
 	local w, h = button:GetSize()
 	alert:SetSize(w * 1.4, h * 1.4)
 	alert:SetPoint("CENTER", button, "CENTER", 0, 0)
-	alert:SetScript("OnHide", function() end)
+	alert:SetScript("OnShow", function(f)
+		f.ProcStartAnim:Play()
+	end)
 	alert:Hide()
 	self.alert = alert
+
+	button:HookScript("OnShow", function()
+		self:Update()
+	end)
+	button:HookScript("OnHide", function()
+		self:Clear()
+	end)
 end
 
 function ConcentrationCooldownMixin:UpdateOverlayGlow()
