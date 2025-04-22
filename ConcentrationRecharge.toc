@@ -17,8 +17,8 @@
 ## Category-zhTW: 專業技能
 ## X-Website: https://github.com/cybertk/ConcentrationRecharge
 ## X-Curse-Project-ID: 1242252
-## X-Wago-ID: x
-## X-WoWI-ID: x
+## X-Wago-ID: x61zgQK1
+## X-WoWI-ID: 26923
 
 
 Util.lua
