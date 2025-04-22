@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.0 - 2025-04-23
+
+- Upgraded ToC to 11.1.5
+- The tooltip now is visible only when CTRL is pressed - Other modifier key will not trigger the display
+
 ## v1.1.0 - 2025-04-17
 
 - Reduced performance impact: release all related resources when button is hided.
