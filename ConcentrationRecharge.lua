@@ -137,7 +137,7 @@ function ConcentrationRecharge:Init()
 
 		if IsControlKeyDown() then
 			self:AddWarbandConcentrationToTooltip(tooltip, concentration.skillLine)
-		else
+		elseif not IsModifierKeyDown() then
 			self:AddRechargeToTooltip(tooltip, concentration)
 		end
 	end)
