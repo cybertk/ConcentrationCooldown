@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.0 - 2025-04-29
+
+- Now the cooldown glow effect visibility can be toggled in addon settings
+- Hide glow and cooldown swipe UI effects during combat to reduce performance impact
+
 ## v1.2.0 - 2025-04-23
 
 - Upgraded ToC to 11.1.5
