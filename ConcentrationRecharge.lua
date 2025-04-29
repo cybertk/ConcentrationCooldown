@@ -39,14 +39,18 @@ end
 local ConcentrationCooldownMixin = {}
 
 function ConcentrationCooldownMixin:OnLoad()
-	local text = self:CreateFontString("$parentCooldownText", "OVERLAY")
+	local button = self:GetParent()
+	self:SetAllPoints(button)
+
+	local swipe = CreateFrame("Cooldown", "$parentCooldown", self, "CooldownFrameTemplate")
+	swipe:SetAllPoints(button)
+	swipe:SetHideCountdownNumbers(true)
+	self.swipe = swipe
+
+	local text = swipe:CreateFontString("$parentCooldownText", "OVERLAY")
 	text:SetFontObject("SystemFont_Shadow_Large_Outline")
 	text:SetPoint("CENTER")
 	self.text = text
-
-	local button = self:GetParent()
-	self:SetAllPoints(button)
-	self:SetHideCountdownNumbers(true)
 
 	local alert = CreateFrame("Frame", nil, button, "ActionBarButtonSpellActivationAlert")
 	local w, h = button:GetSize()
@@ -58,12 +62,25 @@ function ConcentrationCooldownMixin:OnLoad()
 	alert:Hide()
 	self.alert = alert
 
+	self:SetScript("OnShow", self.OnShow)
+	self:SetScript("OnHide", self.OnHide)
+
 	button:HookScript("OnShow", function()
-		self:Update()
+		self:Show()
 	end)
 	button:HookScript("OnHide", function()
-		self:Clear()
+		self:Hide()
 	end)
+end
+
+function ConcentrationCooldownMixin:OnShow()
+	self.alert:Show()
+	self.swipe:Show()
+end
+
+function ConcentrationCooldownMixin:OnHide()
+	self.alert:Hide()
+	self.swipe:Hide()
 end
 
 function ConcentrationCooldownMixin:UpdateOverlayGlow()
@@ -82,13 +99,13 @@ end
 function ConcentrationCooldownMixin:Update()
 	Util:Debug("Updating cooldown:", self:GetParent():GetName())
 
-	self:Clear()
+	self.swipe:Clear()
 	self.text:SetText("")
 
 	self:UpdateOverlayGlow()
 
 	if self.concentration:IsRecharging() then
-		self:SetCooldownUNIX(GetServerTime() - self.concentration:SecondsRecharged(), self.concentration:SecondsOfRecharge(), 60)
+		self.swipe:SetCooldownUNIX(GetServerTime() - self.concentration:SecondsRecharged(), self.concentration:SecondsOfRecharge(), 60)
 		self.text:SetText(self.concentration:GetLatestV())
 	end
 end
@@ -200,7 +217,7 @@ function ConcentrationRecharge:CreateCooldown(button, concentration)
 		return
 	end
 
-	local cooldown = CreateFrame("Cooldown", "$parentCooldown", button, "CooldownFrameTemplate")
+	local cooldown = CreateFrame("Frame", nil, button)
 	Mixin(cooldown, ConcentrationCooldownMixin)
 	cooldown.concentration = concentration
 	cooldown:OnLoad()
@@ -216,6 +233,16 @@ function ConcentrationRecharge:Update()
 
 	for _, cooldown in ipairs(self.cooldowns) do
 		cooldown:Update()
+	end
+end
+
+function ConcentrationRecharge:SetShown(show)
+	for _, cooldown in ipairs(self.cooldowns) do
+		if show and not cooldown:IsVisible() then
+			cooldown:Show()
+		elseif not show and cooldown:IsVisible() then
+			cooldown:Hide()
+		end
 	end
 end
 
@@ -273,6 +300,14 @@ if _G["ConcentrationRecharge"] == nil then
 
 	ConcentrationRecharge:RegisterEvent("TRADE_SKILL_CLOSE", function()
 		ConcentrationRecharge:Update()
+	end)
+
+	ConcentrationRecharge:RegisterEvent("PLAYER_REGEN_DISABLED", function()
+		ConcentrationRecharge:SetShown(false)
+	end)
+
+	ConcentrationRecharge:RegisterEvent("PLAYER_REGEN_ENABLED", function()
+		ConcentrationRecharge:SetShown(true)
 	end)
 
 	ConcentrationRecharge:RegisterEvent("ADDON_LOADED", function(event, name)
