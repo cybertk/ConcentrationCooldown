@@ -2,6 +2,7 @@ local addonName, ns = ...
 
 local Util = ns.Util
 local CharacterStore = ns.CharacterStore
+local Concentration = ns.Concentration
 
 local function FindSpellButtons(spellID)
 	local bars = {
@@ -83,8 +84,17 @@ function ConcentrationCooldownMixin:OnHide()
 	self.swipe:Hide()
 end
 
+function ConcentrationCooldownMixin:SetGlowShown(show)
+	self.glowShown = show
+	self:UpdateOverlayGlow()
+end
+
 function ConcentrationCooldownMixin:UpdateOverlayGlow()
-	if self.concentration:IsFull() then
+	if not self.glowShown and not self.alert:IsVisible() then
+		return
+	end
+
+	if self.concentration:IsFull() and self.glowShown then
 		self.alert:Show()
 		self.alert.ProcStartAnim:Play()
 	else
@@ -158,6 +168,8 @@ function ConcentrationRecharge:Init()
 			self:AddRechargeToTooltip(tooltip, concentration)
 		end
 	end)
+
+	self:RegisterSettings()
 end
 
 function ConcentrationRecharge:FormatConcentration(concentration)
@@ -222,6 +234,14 @@ function ConcentrationRecharge:CreateCooldown(button, concentration)
 	cooldown.concentration = concentration
 	cooldown:OnLoad()
 
+	do
+		local function SetGlowShown(show)
+			cooldown:SetGlowShown(show and ConcentrationRechargeSettings.glow)
+		end
+		ns:RegisterOptionCallback("glow", SetGlowShown)
+		ns:RegisterOptionCallback("glow-" .. concentration.skillLine, SetGlowShown)
+	end
+
 	button.ConcentrationRecharge = cooldown
 	table.insert(self.cooldowns, cooldown)
 
@@ -256,6 +276,36 @@ function ConcentrationRecharge:ExecuteChatCommands(command)
 	end
 
 	print("Usage: |n/cr debug - Turn on/off debugging mode")
+end
+
+function ConcentrationRecharge:RegisterSettings()
+	local settings = {}
+
+	for skillLine, _ in pairs(Concentration.skillLinesTWW) do
+		local name = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLine).professionName
+		local title = format("|T%d:30|t %s", Util:GetProfessionIcon(skillLine), name)
+
+		local row = {
+			key = "glow-" .. skillLine,
+			type = "toggle",
+			title = title,
+			tooltip = format("Show glow effect on the |cffffffff%s|r spell icon when the concentration is fully recharged", name),
+			default = true,
+			requires = "glow",
+			parent = "glow",
+		}
+		table.insert(settings, row)
+	end
+
+	table.insert(settings, 1, {
+		key = "glow",
+		type = "toggle",
+		title = "Enable cooldown glow effects",
+		tooltip = "Show glow effect on the spell icon when the concentration is fully recharged",
+		default = true,
+	})
+
+	ns:RegisterSettings("ConcentrationRechargeSettings", settings)
 end
 
 if _G["ConcentrationRecharge"] == nil then

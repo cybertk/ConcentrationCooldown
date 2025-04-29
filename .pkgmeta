@@ -11,6 +11,10 @@ externals:
         url: https://github.com/cybertk/WeeklyRewards
         tag: v1.8.1
 
+    Embeds/Dashi:
+        url: https://github.com/cybertk/Dashi
+        commit: 642e6f8c
+
 ignore:
     - Makefile
     - Tests

@@ -1,0 +1,6 @@
+<Ui>
+  <!-- Dashi: https://github.com/p3lim-wow/Dashi -->
+  <Script file='Embeds\Dashi\modules\library.lua' />
+  <Script file='Embeds\Dashi\modules\misc.lua' />
+  <Script file='Embeds\Dashi\modules\settings.lua' />
+</Ui>

@@ -3,7 +3,7 @@
 ## Notes: Displays |T5747318:14|t Concentration recharge status directly on profession spell icons and tooltips
 ## Version: @project-version@
 ## IconTexture: 5747318
-## SavedVariables: ConcentrationRechargeDB
+## SavedVariables: ConcentrationRechargeDB, ConcentrationRechargeSettings
 ## Category-enUS: Professions
 ## Category-deDE: Berufe
 ## Category-esES: Profesiones
@@ -20,6 +20,8 @@
 ## X-Wago-ID: x61zgQK1
 ## X-WoWI-ID: 26923
 
+
+Embeds.xml
 
 Util.lua
 Character.lua
