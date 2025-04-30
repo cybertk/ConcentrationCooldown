@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.1 - 2025-04-30
+
+### Fix
+
+- Exiting vehicle no longer triggers cooldown glow for disabled spells
+
 ## v1.3.0 - 2025-04-29
 
 - Now the cooldown glow effect visibility can be toggled in addon settings

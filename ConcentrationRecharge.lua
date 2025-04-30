@@ -75,7 +75,7 @@ function ConcentrationCooldownMixin:OnLoad()
 end
 
 function ConcentrationCooldownMixin:OnShow()
-	self.alert:Show()
+	self:UpdateOverlayGlow()
 	self.swipe:Show()
 end
 
